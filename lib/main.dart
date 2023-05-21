@@ -25,11 +25,17 @@ class MqttExplorer extends StatelessWidget {
       theme: ThemeData(
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color.fromARGB(255, 6, 72, 134),
+            seedColor: const Color.fromARGB(255, 29, 38, 125),
           ),
           fontFamily: 'Roboto'),
+      darkTheme: ThemeData(
+          useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(
+              seedColor: const Color.fromARGB(255, 29, 38, 125),
+              brightness: Brightness.dark),
+          fontFamily: 'Roboto'),
       home: const HomePage(),
-      themeMode: ThemeMode.light,
+      themeMode: ThemeMode.system,
     );
   }
 }

@@ -12,6 +12,22 @@ class TopicWidget extends StatefulWidget {
 
 class _TopicWidgetState extends State<TopicWidget> {
   TextEditingController topicController = TextEditingController();
+  late FocusNode myFocusNode;
+
+  @override
+  void initState() {
+    super.initState();
+
+    myFocusNode = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    // Clean up the focus node when the Form is disposed.
+    myFocusNode.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +48,7 @@ class _TopicWidgetState extends State<TopicWidget> {
     void onClick() {
       context.read<Client>().subscribeToTopic(topicController.value.text);
       topicController.clear();
+      myFocusNode.requestFocus();
     }
 
     return Row(
@@ -58,6 +75,7 @@ class _TopicWidgetState extends State<TopicWidget> {
                         child: TextField(
                           controller: topicController,
                           onSubmitted: (value) => onClick(),
+                          focusNode: myFocusNode,
                           decoration: InputDecoration(
                             hintText: 'New Topic',
                             border: const OutlineInputBorder(),

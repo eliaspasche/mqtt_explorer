@@ -84,10 +84,11 @@ class _ConnectionPageState extends State<ConnectionPage> {
                       _onClick();
                     },
                     style: ButtonStyle(
-                      backgroundColor: status == Status.connected
-                          ? MaterialStateProperty.all<Color>(Colors.red)
-                          : MaterialStateProperty.all<Color>(Colors.green),
-                    ),
+                        backgroundColor: status == Status.connected
+                            ? MaterialStateProperty.all<Color>(Colors.red)
+                            : MaterialStateProperty.all<Color>(Colors.green),
+                        foregroundColor:
+                            MaterialStateProperty.all<Color>(Colors.white)),
                   ),
                 ],
               ),
