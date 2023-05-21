@@ -45,7 +45,14 @@ class _ConnectionPageState extends State<ConnectionPage> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
+              const ListTile(
+                leading: Icon(Icons.hub_outlined),
+                title: Text("Connection"),
+                subtitle: Text("Configure the connection to a MQTT broker."),
+              ),
+              const SizedBox(height: 8),
               const ConnectionStatus(),
+              const SizedBox(height: 8),
               TextField(
                 controller: brokerController,
                 onSubmitted: (value) => _onClick(),
@@ -54,9 +61,13 @@ class _ConnectionPageState extends State<ConnectionPage> {
                     context.read<Client>().disconnect();
                   }
                 },
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
                   hintText: 'MQTT Broker',
+                  icon: Icon(
+                    status.icon,
+                    color: status.color,
+                  ),
                 ),
               ),
               const SizedBox(height: 20),
@@ -95,23 +106,19 @@ class ConnectionStatus extends StatelessWidget {
   Widget build(BuildContext context) {
     Status status = context.watch<Client>().status;
 
-    return SizedBox(
-      width: 400,
-      height: 50,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            status.icon,
-            color: status.color,
-          ),
-          const SizedBox(width: 8),
-          Text(
-            status.message,
-            style: TextStyle(color: status.color),
-          ),
-        ],
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(
+          status.icon,
+          color: status.color,
+        ),
+        const SizedBox(width: 8),
+        Text(
+          status.message,
+          style: TextStyle(color: status.color),
+        ),
+      ],
     );
   }
 }

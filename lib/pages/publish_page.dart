@@ -12,7 +12,7 @@ class _PublishPageState extends State<PublishPage> {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      child: const Text("Settings"),
+      child: const Text("Publish"),
     );
   }
 }
