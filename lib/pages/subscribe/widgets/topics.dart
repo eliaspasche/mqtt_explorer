@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mqtt_explorer/models/client.dart';
+import 'package:mqtt_explorer/shared/snacks.dart';
 
 import 'package:provider/provider.dart';
 
@@ -11,44 +12,74 @@ class TopicWidget extends StatefulWidget {
 }
 
 class _TopicWidgetState extends State<TopicWidget> {
-  TextEditingController topicController = TextEditingController();
-  late FocusNode myFocusNode;
+  late TextEditingController _topicController;
+  late ScaffoldMessengerState _messenger;
+  late FocusNode _focusTopic;
 
   @override
   void initState() {
     super.initState();
 
-    myFocusNode = FocusNode();
+    _topicController = TextEditingController();
+    _focusTopic = FocusNode();
+  }
+
+  @override
+  void didChangeDependencies() {
+    _messenger = ScaffoldMessenger.of(context);
+    super.didChangeDependencies();
   }
 
   @override
   void dispose() {
-    // Clean up the focus node when the Form is disposed.
-    myFocusNode.dispose();
+    _topicController.dispose();
+
+    _focusTopic.dispose();
 
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    /// Usubscribes from a given [topic].
+    /// Shows a snack in case of any error for user feedback.
+    void unsubscribeFromTopic(String topic) async {
+      try {
+        await context.read<Client>().unsubscribeFromTopic(topic);
+      } catch (e) {
+        _messenger.showSnackBar(errorSnack("Please check your connection."));
+      }
+    }
+
+    /// Build the list of topics. Returns a list of [Widget]
+    /// containing a [Chip] for each topic.
     List<Widget> buildTopicList() {
       // Sort topics
       final List<String> sortedTopics = context.watch<Client>().topics.toList()
         ..sort();
+
       return sortedTopics
-          .map((String topic) => Chip(
-                label: Text(topic),
-                onDeleted: () {
-                  context.read<Client>().unsubscribeFromTopic(topic);
-                },
-              ))
+          .map(
+            (String topic) => Chip(
+              label: Text(topic),
+              onDeleted: () => unsubscribeFromTopic(topic),
+            ),
+          )
           .toList();
     }
 
-    void onClick() {
-      context.read<Client>().subscribeToTopic(topicController.value.text);
-      topicController.clear();
-      myFocusNode.requestFocus();
+    /// Subscribes to a new topic. The topic is read from the [_topicController].
+    void subscribeToTopic() async {
+      try {
+        await context
+            .read<Client>()
+            .subscribeToTopic(_topicController.value.text);
+        _topicController.clear();
+        _focusTopic.requestFocus();
+      } catch (e) {
+        _messenger.showSnackBar(
+            errorSnack("Please check your connection.", e.toString()));
+      }
     }
 
     return Row(
@@ -73,16 +104,15 @@ class _TopicWidgetState extends State<TopicWidget> {
                     children: <Widget>[
                       Expanded(
                         child: TextField(
-                          controller: topicController,
-                          onSubmitted: (value) => onClick(),
-                          focusNode: myFocusNode,
+                          controller: _topicController,
+                          onSubmitted: (value) => subscribeToTopic(),
+                          focusNode: _focusTopic,
                           decoration: InputDecoration(
                             hintText: 'New Topic',
                             border: const OutlineInputBorder(),
                             suffixIcon: IconButton(
-                              onPressed: () => onClick(),
+                              onPressed: () => subscribeToTopic(),
                               icon: const Icon(Icons.add_rounded),
-                              color: Theme.of(context).primaryColor,
                             ),
                           ),
                         ),

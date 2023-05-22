@@ -17,6 +17,8 @@ void main() {
 class MqttExplorer extends StatelessWidget {
   const MqttExplorer({super.key});
 
+  final Color seedColor = const Color.fromARGB(255, 29, 38, 125);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -25,14 +27,15 @@ class MqttExplorer extends StatelessWidget {
       theme: ThemeData(
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color.fromARGB(255, 29, 38, 125),
+            seedColor: seedColor,
           ),
           fontFamily: 'Roboto'),
       darkTheme: ThemeData(
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(
-              seedColor: const Color.fromARGB(255, 29, 38, 125),
-              brightness: Brightness.dark),
+            seedColor: seedColor,
+            brightness: Brightness.dark,
+          ),
           fontFamily: 'Roboto'),
       home: const HomePage(),
       themeMode: ThemeMode.system,

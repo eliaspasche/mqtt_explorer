@@ -13,10 +13,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final PageController _pageController = PageController();
+  late PageController _pageController;
   int _page = 0;
 
-  MqttServerClient client = MqttServerClient("test.mosquitto.org", "myClient");
+  @override
+  void initState() {
+    _pageController = PageController();
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -31,6 +35,7 @@ class _HomePageState extends State<HomePage> {
           duration: const Duration(milliseconds: 300), curve: Curves.ease);
     }
 
+    /// Handles page changes
     void onPageChanged(int page) {
       setState(() {
         _page = page;

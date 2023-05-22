@@ -11,15 +11,29 @@ class MessageWidget extends StatefulWidget {
 }
 
 class _MessageWidgetState extends State<MessageWidget> {
-  ScrollController scrollController = ScrollController();
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _scrollController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     /// Build messages to card widgets
     List<Widget> buildMessageList() {
       // Scroll to top on new messages
-      if (scrollController.hasClients) {
-        scrollController.animateTo(
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
           0.0,
           duration: const Duration(milliseconds: 600),
           curve: Curves.easeOut,
@@ -46,6 +60,7 @@ class _MessageWidgetState extends State<MessageWidget> {
           .toList();
     }
 
+    /// Clears the whole list of messages
     void clearList() {
       context.read<Client>().clearMessages();
     }
@@ -71,7 +86,7 @@ class _MessageWidgetState extends State<MessageWidget> {
               ),
               Expanded(
                 child: ListView(
-                  controller: scrollController,
+                  controller: _scrollController,
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   children: buildMessageList(),

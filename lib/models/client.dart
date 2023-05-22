@@ -7,23 +7,35 @@ import 'package:mqtt_explorer/models/message.dart';
 import 'package:mqtt_explorer/models/status.dart';
 
 class Client with ChangeNotifier {
-  final MqttServerClient _client = MqttServerClient("", "myClient");
+  final MqttServerClient _client = MqttServerClient("", "flutterMqttClient");
   MqttServerClient get client => _client;
 
+  String get broker => _client.server;
+  set broker(String broker) {
+    client.server = broker;
+    notifyListeners();
+  }
+
   Status status = Status.disconnected;
+  String? errorMessage;
   Set<String> topics = <String>{};
   List<Message> messages = <Message>[];
+
+  String _publishTopic = "";
+  String get publishTopic => _publishTopic;
+  set publishTopic(String publishTopic) {
+    _publishTopic = publishTopic;
+    notifyListeners();
+  }
 
   StreamSubscription? subscription;
 
   /// Connects the client to the given [broker] and sets the required properties.
   /// [broker] can be an ip or host name of a broker.
-  void connect(String broker) async {
+  Future<void> connect() async {
     // Set client properties
-    _client.server = broker;
     _client.port = 1883;
-    _client.logging(on: true);
-    _client.keepAlivePeriod = 30;
+    _client.keepAlivePeriod = 60;
     _client.onDisconnected = _onDisconnected;
 
     // Connect
@@ -34,16 +46,15 @@ class Client with ChangeNotifier {
       status = Status.connected;
       notifyListeners();
     } catch (e) {
-      print(e);
       disconnect();
-    }
 
-    /// Check connection
-    if (_client.connectionStatus?.state == MqttConnectionState.connected) {
-      print('MQTT connected');
-    } else {
-      print('ERROR: MQTT connection failed - isconnecting ...');
+      // Set status to faulted
       status = Status.faulted;
+      errorMessage = e.toString();
+      notifyListeners();
+
+      // Rethrow to catch in caller
+      rethrow;
     }
 
     // Add a listener on updates
@@ -56,8 +67,6 @@ class Client with ChangeNotifier {
     final MqttPublishMessage recMess = event[0].payload as MqttPublishMessage;
     final String message =
         MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
-
-    print('New MQTT message: <-- ${event[0].topic} -->: $message');
 
     messages.add(Message(
       topic: event[0].topic,
@@ -76,27 +85,31 @@ class Client with ChangeNotifier {
   }
 
   /// Subscribes the client to a given [topic].
-  void subscribeToTopic(String topic) {
-    // Only connect if the client is connected
-    if (status == Status.connected) {
-      if (topics.add(topic.trim())) {
-        print('Subscribing to ${topic.trim()}');
-        client.subscribe(topic, MqttQos.exactlyOnce);
-      }
-      notifyListeners();
+  /// Tries to connect to the current [broker] if no connection is established.
+  Future<void> subscribeToTopic(String topic) async {
+    // try to connect if status is not connected
+    if (status != Status.connected) {
+      await connect();
     }
+
+    if (topics.add(topic.trim())) {
+      client.subscribe(topic, MqttQos.exactlyOnce);
+    }
+    notifyListeners();
   }
 
   /// Unsubscribes the client of the given [topic].
-  void unsubscribeFromTopic(String topic) {
-    // Only unsubscribe if the client is connected
-    if (status == Status.connected) {
-      if (topics.remove(topic.trim())) {
-        client.unsubscribe(topic, expectAcknowledge: true);
-        print('Unsubscribed from ${topic.trim()}');
-      }
-      notifyListeners();
+  /// Tries to connect to the current [broker] if no connection is established.
+  Future<void> unsubscribeFromTopic(String topic) async {
+    // try to connect if status is not connected
+    if (status != Status.connected) {
+      await connect();
     }
+
+    if (topics.remove(topic.trim())) {
+      client.unsubscribe(topic, expectAcknowledge: true);
+    }
+    notifyListeners();
   }
 
   /// Clears the list of received messages.
@@ -111,6 +124,20 @@ class Client with ChangeNotifier {
     notifyListeners();
   }
 
+  /// Publish a given [content] to the current [publishTopic].
+  /// Tries to connect to the current [broker] if no connection is established.
+  Future<void> publishMessage(String content) async {
+    // try to connect if status is not connected
+    if (status != Status.connected) {
+      await connect();
+    }
+
+    final builder = MqttClientPayloadBuilder();
+    builder.addString(content);
+
+    client.publishMessage(publishTopic, MqttQos.exactlyOnce, builder.payload!);
+  }
+
   /// Resets all properties after successful disconnect.
   void _onDisconnected() {
     topics.clear();
@@ -121,6 +148,5 @@ class Client with ChangeNotifier {
     subscription?.cancel();
     subscription = null;
     notifyListeners();
-    print('MQTT connection disconnected');
   }
 }
