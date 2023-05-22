@@ -61,7 +61,10 @@ class _PublishPageState extends State<PublishPage> {
       } catch (e) {
         _messenger
             .showSnackBar(errorSnack("Error while publishing.", e.toString()));
+
+        return;
       }
+
       _messageController.clear();
       _focusMessage.requestFocus();
 
