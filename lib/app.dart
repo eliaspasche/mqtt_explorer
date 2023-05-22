@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mqtt_explorer/pages/connect_page.dart';
 import 'package:mqtt_explorer/pages/publish_page.dart';
-import 'package:mqtt_client/mqtt_server_client.dart';
 
 import 'package:mqtt_explorer/pages/subscribe/subscribe_page.dart';
 

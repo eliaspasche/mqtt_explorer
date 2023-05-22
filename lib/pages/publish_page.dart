@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_explorer/models/client.dart';
 import 'package:mqtt_explorer/shared/snacks.dart';
 import 'package:provider/provider.dart';
