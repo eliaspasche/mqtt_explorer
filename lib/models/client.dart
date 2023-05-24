@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:mqtt_client/mqtt_client.dart';
@@ -7,7 +8,8 @@ import 'package:mqtt_explorer/models/message.dart';
 import 'package:mqtt_explorer/models/status.dart';
 
 class Client with ChangeNotifier {
-  final MqttServerClient _client = MqttServerClient("", "flutterMqttClient");
+  final MqttServerClient _client =
+      MqttServerClient("", "flutterMqttClient${Random().nextInt(90) + 10}");
   MqttServerClient get client => _client;
 
   String get broker => _client.server;
