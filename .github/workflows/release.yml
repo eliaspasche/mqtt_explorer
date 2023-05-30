@@ -35,4 +35,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          name: v${{ env.GitVersion_SemVer }}
+          prerelease: ${{ env.GitVersion_PreReleaseLabel != '' }}
           files: build/windows/runner/Release/MQTT_Explorer_${{github.ref_name}}_windows.zip
