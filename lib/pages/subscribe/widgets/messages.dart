@@ -3,6 +3,7 @@ import 'package:mqtt_explorer/models/client.dart';
 import 'package:mqtt_explorer/models/message.dart';
 import 'package:provider/provider.dart';
 
+/// Widget to display received messages.
 class MessageWidget extends StatefulWidget {
   const MessageWidget({super.key});
 
@@ -40,6 +41,7 @@ class _MessageWidgetState extends State<MessageWidget> {
         );
       }
 
+      // return the list of messages mapped to widgets
       return context
           .watch<Client>()
           .messages

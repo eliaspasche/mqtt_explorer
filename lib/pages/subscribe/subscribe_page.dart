@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mqtt_explorer/pages/subscribe/widgets/topics.dart';
 import 'package:mqtt_explorer/pages/subscribe/widgets/messages.dart';
 
+/// Page to handle subsriptions to different topics and receive messages
 class SubscribePage extends StatefulWidget {
   const SubscribePage({super.key});
 

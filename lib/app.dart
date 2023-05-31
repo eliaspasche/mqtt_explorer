@@ -4,6 +4,7 @@ import 'package:mqtt_explorer/pages/publish_page.dart';
 
 import 'package:mqtt_explorer/pages/subscribe/subscribe_page.dart';
 
+/// Main Page of the Application
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -45,6 +46,7 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: navigationTapped,
         selectedIndex: _page,
+        // Navigation buttons
         destinations: const <Widget>[
           NavigationDestination(
             icon: Icon(Icons.hub_rounded),
@@ -60,6 +62,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
+      // Content depending on selected navigation destination
       body: PageView(
         controller: _pageController,
         onPageChanged: onPageChanged,

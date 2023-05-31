@@ -7,6 +7,7 @@ import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:mqtt_explorer/models/message.dart';
 import 'package:mqtt_explorer/models/status.dart';
 
+/// Singleton client to wrap mqtt library
 class Client with ChangeNotifier {
   final MqttServerClient _client =
       MqttServerClient("", "flutterMqttClient${Random().nextInt(90) + 10}");
@@ -40,14 +41,16 @@ class Client with ChangeNotifier {
     _client.keepAlivePeriod = 60;
     _client.onDisconnected = _onDisconnected;
 
-    // Connect
+    // Connect to broker
     try {
       status = Status.connecting;
       notifyListeners();
       await _client.connect();
       status = Status.connected;
       notifyListeners();
-    } catch (e) {
+    }
+    // In case of errors
+    catch (e) {
       disconnect();
 
       // Set status to faulted
@@ -144,6 +147,8 @@ class Client with ChangeNotifier {
   void _onDisconnected() {
     topics.clear();
     messages.clear();
+
+    // Set custom status dedending on client connection status
     status = Status.values.firstWhere(
         (element) => element.state == client.connectionStatus?.state,
         orElse: () => Status.disconnected);

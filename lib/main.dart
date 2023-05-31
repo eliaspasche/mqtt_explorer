@@ -14,6 +14,7 @@ void main() {
   );
 }
 
+/// Main App: Mqtt Explorer
 class MqttExplorer extends StatelessWidget {
   const MqttExplorer({super.key});
 
@@ -24,12 +25,14 @@ class MqttExplorer extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "MQTT Explorer",
+      // light theme
       theme: ThemeData(
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(
             seedColor: seedColor,
           ),
           fontFamily: 'Roboto'),
+      // darkt theme
       darkTheme: ThemeData(
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(
@@ -37,6 +40,7 @@ class MqttExplorer extends StatelessWidget {
             brightness: Brightness.dark,
           ),
           fontFamily: 'Roboto'),
+      // starting point of application
       home: const HomePage(),
       themeMode: ThemeMode.system,
     );

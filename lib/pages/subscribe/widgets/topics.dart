@@ -4,6 +4,7 @@ import 'package:mqtt_explorer/shared/snacks.dart';
 
 import 'package:provider/provider.dart';
 
+/// Widget to manage subsrciption topics
 class TopicWidget extends StatefulWidget {
   const TopicWidget({super.key});
 

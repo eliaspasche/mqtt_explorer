@@ -3,6 +3,7 @@ import 'package:mqtt_explorer/models/client.dart';
 import 'package:mqtt_explorer/shared/snacks.dart';
 import 'package:provider/provider.dart';
 
+/// Page to publish messages to a specific topic
 class PublishPage extends StatefulWidget {
   const PublishPage({super.key});
 
@@ -64,6 +65,7 @@ class _PublishPageState extends State<PublishPage> {
         return;
       }
 
+      // Reset text field and set focus
       _messageController.clear();
       _focusMessage.requestFocus();
 
@@ -75,6 +77,7 @@ class _PublishPageState extends State<PublishPage> {
       alignment: Alignment.topCenter,
       child: Column(
         children: [
+          // Select a specific topic
           Card(
             child: Padding(
               padding: const EdgeInsets.all(16),
@@ -96,7 +99,6 @@ class _PublishPageState extends State<PublishPage> {
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: 'Publish Topic',
-                      // icon: Icon(Icons.topic_rounded),
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -104,6 +106,7 @@ class _PublishPageState extends State<PublishPage> {
               ),
             ),
           ),
+          // Send messages to configured topic
           Card(
             child: Padding(
               padding: const EdgeInsets.all(16),
@@ -124,14 +127,15 @@ class _PublishPageState extends State<PublishPage> {
                     maxLength: 65000,
                     keyboardType: TextInputType.multiline,
                     decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        hintText: 'Message',
-                        suffixIcon: IconButton(
-                          icon: const Icon(Icons.send_rounded),
-                          onPressed: readyToSend ? () => sendMessage() : null,
-                          tooltip:
-                              !readyToSend ? "Topic or Message missing" : null,
-                        )),
+                      border: const OutlineInputBorder(),
+                      hintText: 'Message',
+                      suffixIcon: IconButton(
+                        icon: const Icon(Icons.send_rounded),
+                        onPressed: readyToSend ? () => sendMessage() : null,
+                        tooltip:
+                            !readyToSend ? "Topic or Message missing" : null,
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 16),
                   Row(

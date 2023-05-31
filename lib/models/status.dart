@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 
+/// Different status for client connection.
+/// Used to display feedback for users.
 enum Status {
   connected(
     icon: Icons.cloud_done,

@@ -5,6 +5,7 @@ import 'package:mqtt_explorer/models/status.dart';
 import 'package:mqtt_explorer/shared/snacks.dart';
 import 'package:provider/provider.dart';
 
+/// Page to configure the connection to a mqtt broker
 class ConnectionPage extends StatefulWidget {
   const ConnectionPage({super.key});
 
@@ -139,6 +140,7 @@ class ConnectionStatus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Get required variables from context
     Status status = context.watch<Client>().status;
     String? error = context.watch<Client>().errorMessage;
 
