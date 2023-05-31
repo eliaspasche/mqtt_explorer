@@ -31,11 +31,11 @@ The user can subscribe to multiple topics on this page. Messages from the config
 The list of messages can be cleared completly. Single messages can be removed as well.
 
 ## Publish Page
-On this page, the use can publish own messages to the configured broker using a custom topic.  
-The buttons to publish a message is only enabled, if a topic is configured. The user is informed via tooltip about this behavior.
+On this page, the user can publish own messages to the configured broker using a custom topic.  
+The button to publish a message is only enabled, if a topic is configured. The user is informed via tooltip about this behavior.
 
 # Error Handling
-In case of errors, especially connection erros, the user is informed with notifications and tooltips. Highlight colors for errors and success are used here aswell.
+In case of errors, especially connection errors, the user is informed with notifications and tooltips. Highlight colors for errors and success are used here aswell.
 
 # UML Class Diagram
 ![UML class diagram](https://github.com/eliaspasche/mqtt_explorer/blob/bdd0899cac752742388a8f83b3345f3f57464670/docs/UML_class_diagram.png)
