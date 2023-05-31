@@ -38,7 +38,7 @@ The buttons to publish a message is only enabled, if a topic is configured. The 
 In case of errors, especially connection erros, the user is informed with notifications and tooltips. Highlight colors for errors and success are used here aswell.
 
 # UML Class Diagram
-UML for the backend classes.
+![UML class diagram](https://github.com/eliaspasche/mqtt_explorer/blob/bdd0899cac752742388a8f83b3345f3f57464670/docs/UML_class_diagram.png)
 
 # Visualisation UI Elements
 To get a better understanding of the ui components we provide a visualisation of the main ui widgets.
