@@ -123,7 +123,6 @@ class _PublishPageState extends State<PublishPage> {
                     focusNode: _focusMessage,
                     maxLength: 65000,
                     keyboardType: TextInputType.multiline,
-                    maxLines: null,
                     decoration: InputDecoration(
                         border: const OutlineInputBorder(),
                         hintText: 'Message',
