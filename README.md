@@ -41,4 +41,4 @@ In case of errors, especially connection errors, the user is informed with notif
 ![UML class diagram](https://github.com/eliaspasche/mqtt_explorer/blob/bdd0899cac752742388a8f83b3345f3f57464670/docs/UML_class_diagram.png)
 
 # Visualisation UI Elements
-To get a better understanding of the ui components we provide a visualisation of the main ui widgets.
+![Tree graph of the UI Elements](https://github.com/eliaspasche/mqtt_explorer/blob/ee6592847c8a580aa58770a5708ef6434d70284e/docs/UI_graph.png)
