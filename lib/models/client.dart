@@ -37,15 +37,15 @@ class Client with ChangeNotifier {
   /// [broker] can be an ip or host name of a broker.
   Future<void> connect() async {
     // Set client properties
-    _client.port = 1883;
-    _client.keepAlivePeriod = 60;
-    _client.onDisconnected = _onDisconnected;
+    client.port = 1883;
+    client.keepAlivePeriod = 60;
+    client.onDisconnected = _onDisconnected;
 
     // Connect to broker
     try {
       status = Status.connecting;
       notifyListeners();
-      await _client.connect();
+      await client.connect();
       status = Status.connected;
       notifyListeners();
     }
@@ -63,7 +63,7 @@ class Client with ChangeNotifier {
     }
 
     // Add a listener on updates
-    subscription = _client.updates?.listen(_onMessage);
+    subscription = client.updates?.listen(_onMessage);
   }
 
   /// Method on new messages of the mqtt client.
@@ -85,7 +85,7 @@ class Client with ChangeNotifier {
   void disconnect() {
     status = Status.disconnecting;
     notifyListeners();
-    _client.disconnect();
+    client.disconnect();
     _onDisconnected();
   }
 

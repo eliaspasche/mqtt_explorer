@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mqtt_explorer/pages/connect_page.dart';
 import 'package:mqtt_explorer/pages/publish_page.dart';
 
@@ -18,6 +19,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
+
     _pageController = PageController();
     super.initState();
   }

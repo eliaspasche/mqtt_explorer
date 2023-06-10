@@ -24,6 +24,11 @@ class _PublishPageState extends State<PublishPage> {
     _focusMessage = FocusNode();
     _topicController = TextEditingController();
     _messageController = TextEditingController();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _topicController.text =
+          Provider.of<Client>(context, listen: false).publishTopic;
+    });
   }
 
   @override
@@ -43,7 +48,6 @@ class _PublishPageState extends State<PublishPage> {
 
   @override
   Widget build(BuildContext context) {
-    _topicController.text = context.watch<Client>().publishTopic;
     bool readyToSend = context.watch<Client>().publishTopic.isNotEmpty;
 
     /// Handles the changes of the topic text field.
